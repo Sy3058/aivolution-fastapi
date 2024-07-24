@@ -46,6 +46,19 @@ CREATE TABLE IF NOT EXISTS anncTable (
   PRIMARY KEY (boardnum)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO anncTable (title, content) VALUES ('"AIditor" 오픈 공지', '<p> 안녕하세요, <span>AIvolution</span>입니다. </p>
+  <br />
+  <p> 쉽고 빠른 영상 편집을 위한 편집 서비스 "AIditor" 베타서비스를 오픈하였습니다.</p>
+  <p> 현재 사용 가능한 기능은 다음과 같습니다.</p>
+  <br />
+  <p> 사용 가능한 기능 </p>
+  <li> 유해정보 블라인드 </li>
+  <li> 개인정보 보호 </li>
+  <li> 얼굴 감지 </li>
+  <br />
+  <p> 번거로움 없이 영상을 편집할 수 있는 AIditor, 많이 이용해주세요.</p>
+  <p> 감사합니다.</p>');
+
 CREATE TABLE IF NOT EXISTS boardTable (
   boardnum int NOT NULL AUTO_INCREMENT,
   title varchar(255) NOT NULL,

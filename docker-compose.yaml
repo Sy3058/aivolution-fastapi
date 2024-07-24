@@ -23,6 +23,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
       - ./init.sh:/docker-entrypoint-initdb.d/init.sh
       - shared_data:/shared
       - /project/aivolution-fastapi/secrets.json:/shared/secrets.json
