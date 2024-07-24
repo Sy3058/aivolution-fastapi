@@ -12,11 +12,8 @@ from dotenv import load_dotenv
 
 app = FastAPI()
 
-SECRET_FILE = '/secrets/secret.json'
-
-with open(SECRET_FILE) as f:
+with open('/shared/secrets.json', 'r') as f:
     secrets = json.load(f)
-
 ## DB connect
 DBHOSTNAME = secrets.get("MYSQL_HOSTNAME")
 DBPORT = int(secrets.get("MYSQL_PORT"))
@@ -27,6 +24,11 @@ DB = secrets.get("MYSQL_DBNAME")
 class EmailRequest(BaseModel):
     email: EmailStr
     name: str
+
+class ErrorRequest(BaseModel):
+    email: EmailStr
+    name: str
+    content: str
 
 class AnnounceRequest(BaseModel):
     title: str
@@ -88,6 +90,7 @@ def read_root():
     print("connected...")
     return {"status_code":"200"}
 
+# 동영상 작업 완료 메일 전송
 @app.post("/sendemail")
 async def send_email(request: EmailRequest):
     try:
@@ -142,7 +145,7 @@ async def send_email(request: EmailRequest):
                                 font-weight: bold;
                                 "
                             >
-                                <img width="130" src="https://i.ibb.co/qjb67XM/mainlogo.png" />
+                                <img width="130" src="https://i.ibb.co/sw9z4zS/mainlogo.png" />
                             </td>
                             </tr>
                             <!-- 본문 컨텐츠 영역 -->
@@ -158,7 +161,7 @@ async def send_email(request: EmailRequest):
                                     완료되었어요!😆
                                     </td>
                                     <td style="display: block; margin-bottom: 10px">
-                                    <a href="http://localhost:5000">사이트</a>에 접속하여
+                                    <a href="https://www.aiditor.link">사이트</a>에 접속하여
                                     결과를 확인해주세요.
                                     </td>
                                 </tbody>
@@ -227,6 +230,163 @@ async def send_email(request: EmailRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# 동영상 작업 에러 메일 전송
+@app.post("/senderroremail")
+async def send_error_email(request: ErrorRequest):
+    try:
+        # SMTP 서버 설정
+        smtp_server = "smtp.gmail.com"
+        port = 587
+        sender_email = secrets.get("EMAIL_ID")
+        password = secrets.get("EMAIL_PASSWORD")
+
+        html = f"""
+        <html>
+            <body>
+                <table
+                border="0"
+                cellpadding="0"
+                cellspacing="0"
+                width="100%"
+                bgcolor="#F4F5F7"
+                style="
+                    padding: 82px 16px 82px;
+                    color: #191919;
+                    font-family: 'Noto Sans KR', sans-serif;
+                "
+                class="wrapper"
+                >
+                <tbody style="display: block; max-width: 600px; margin: 0 auto">
+                    <tr width="100%" style="display: block">
+                    <td width="100%" style="display: block">
+                        <table
+                        width="100%"
+                        border="0"
+                        cellpadding="0"
+                        cellspacing="0"
+                        bgcolor="#FFFFFF"
+                        style="
+                            display: inline-block;
+                            padding: 32px;
+                            text-align: left;
+                            border-top: 3px solid #22b4e6;
+                            border-collapse: collapse;
+                        "
+                        class="container"
+                        >
+                        <tbody style="display: block">
+                            <!-- 로고 -->
+                            <tr>
+                            <td
+                                style="
+                                padding-top: 15px;
+                                padding-bottom: 30px;
+                                font-size: 20px;
+                                font-weight: bold;
+                                "
+                            >
+                                <img width="130" src="https://i.ibb.co/sw9z4zS/mainlogo.png" />
+                            </td>
+                            </tr>
+                            <!-- 본문 컨텐츠 영역 -->
+                            <tr width="100%" style="display: block; margin-bottom: 32px">
+                            <td width="100%" style="display: block; font-size: 20px">
+                                <table class="content">
+                                <tbody>
+                                    <td style="display: block; margin-bottom: 10px">
+                                    안녕하세요, {request.name}님!
+                                    </td>
+                                    <td style="display: block; margin-bottom: 10px">
+                                    {request.name}님이 요청한 동영상 편집 중 오류가 발생했어요.😭
+                                    </td>
+                                    <td style="display: block">
+                                        <div
+                                            style="
+                                            background-color: #e7e7e7e3;
+                                            width: 90%;
+                                            padding: 10px;
+                                            margin: 0 auto 10px;
+                                            border-radius: 10px;
+                                            text-align: center;
+                                            align-items: center;
+                                            white-space: normal;
+                                            overflow-y: auto;
+                                            "
+                                        >
+                                            {request.content}
+                                        </div>
+                                    </td>
+                                    <td style="display: block; margin-bottom: 10px">
+                                    오류 내용을 확인하고 <a href="https://www.aiditor.link">사이트</a>에 접속하여
+                                    다시 시도해주세요.
+                                    </td>
+                                </tbody>
+                                </table>
+                            </td>
+                            </tr>
+                            <!-- 푸터(통합 서비스) -->
+                            <tr
+                            width="100%"
+                            style="
+                                display: block;
+                                padding-top: 24px;
+                                border-top: 1px solid #e9e9e9;
+                            "
+                            >
+                            <td
+                                style="
+                                padding-bottom: 8px;
+                                color: #a7a7a7;
+                                font-size: 12px;
+                                line-height: 20px;
+                                "
+                            >
+                                본 메일은 발신 전용입니다.
+                            </td>
+                            </tr>
+                            <tr>
+                            <td
+                                style="
+                                padding-bottom: 10px;
+                                color: #a7a7a7;
+                                font-size: 12px;
+                                line-height: 20px;
+                                "
+                            >
+                                Copyright © 2024 AIDitor All Rights Reserved.
+                            </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </td>
+                    </tr>
+                </tbody>
+                </table>
+            </body>
+        </html>
+        """
+        message = MIMEText(html, "html")
+        message["Subject"] = f"AIditor: {request.name}님이 요청한 동영상 편집에 오류가 발생했어요.😭"
+        message["To"] = request.email
+
+        # 이메일 전송
+        with smtplib.SMTP(smtp_server, port) as server:
+            server.starttls()
+            server.login(sender_email, password)
+            server.sendmail(sender_email, request.email, message.as_string())
+
+        return JSONResponse(
+            status_code=200,
+            content = {
+                "status": "Success",
+                "code": 200,
+                "message": f"{request.name}님에게 이메일 전송이 완료되었습니다."
+            }
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 게시판에 댓글 작성되었을 때 알림 메일 전송
 @app.post("/sendemail2")
 async def send_email2(data: BoardNum):
     boardnum = data.boardnum
@@ -285,10 +445,10 @@ async def send_email2(data: BoardNum):
                                 font-weight: bold;
                                 "
                             >
-                                <a href="http://localhost:5000"
+                                <a href="https://www.aiditor.link"
                                 ><img
                                     width="130"
-                                    src="https://i.ibb.co/qjb67XM/mainlogo.png"
+                                    src="https://i.ibb.co/sw9z4zS/mainlogo.png"
                                 /></a>
                             </td>
                             </tr>
@@ -305,7 +465,7 @@ async def send_email2(data: BoardNum):
                                     완료되었습니다!😆
                                     </td>
                                     <td style="display: block; margin-bottom: 10px; font-size: 0.9em;">
-                                    <a href="http://localhost:5000/board/{boardnum}">게시글 바로가기</a>
+                                    <a href="https://www.aiditor.link/board/{boardnum}">게시글 바로가기</a>
                                     </td>
                                 </tbody>
                                 </table>
@@ -525,6 +685,32 @@ async def finish_process(worknum: str):
 
             sql = "UPDATE workTable SET isprocess = %s WHERE worknum = %s"
             values = ("N", worknum)
+            cursor.execute(sql, values)
+            connection.commit()
+
+            email = data[0][0]
+            name = data[0][1]
+            opt = data[0][2]
+
+            if opt == "in":
+                return EmailRequest(email=email, name=name)
+            else:
+                return 0 # opt == out이므로 process 종료
+    finally:
+        connection.close()
+
+# process 진행 오류 (Y -> E)
+@app.put("/errorprocess")
+async def error_process(worknum: str):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT email, name, opt FROM workTable WHERE worknum = %s"
+            cursor.execute(sql, (worknum))
+            data = cursor.fetchall()
+
+            sql = "UPDATE workTable SET isprocess = %s WHERE worknum = %s"
+            values = ("E", worknum)
             cursor.execute(sql, values)
             connection.commit()
 
