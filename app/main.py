@@ -330,6 +330,9 @@ async def send_error_email(request: ErrorRequest):
                                     오류 내용을 확인하고 <a href="https://www.aiditor.link">사이트</a>에 접속하여
                                     다시 시도해주세요.
                                     </td>
+                                    <td style="display: block; margin-bottom: 10px">
+                                    📌 사용된 이용권은 자동으로 환불되었습니다.
+                                    </td>
                                 </tbody>
                                 </table>
                             </td>
