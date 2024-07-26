@@ -30,6 +30,16 @@ class ErrorRequest(BaseModel):
     name: str
     content: str
 
+class TotalTicket(BaseModel):
+    email: EmailStr
+    totalticket: str
+    remainticket: str
+
+class UsedTicket(BaseModel):
+    email: EmailStr
+    usedticket: str
+    remainticket: str
+
 class AnnounceRequest(BaseModel):
     title: str
     content: str
@@ -605,6 +615,64 @@ async def delete_user(email: str):
 
             connection.commit()
             return {"email": email}
+    finally:
+        connection.close()
+
+# ticketTable
+@app.get("/selectticket")
+async def select_ticket(email: str):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM ticketTable WHERE email = %s"
+            cursor.execute(sql, (email))
+
+            data = cursor.fetchall()
+            print(data)
+            print(data[0])
+            result = {"email": data[0][0], "totalticket":data[0][1], "usedticket":data[0][2], "remainticket":data[0][3]}
+            return result
+    finally:
+        connection.close()
+
+@app.post("/addticket")
+async def add_ticket(email: str):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO ticketTable (email) VALUES (%s)"
+            cursor.execute(sql, (email))
+
+            connection.commit()
+            return {"email": email}
+    finally:
+        connection.close()
+
+@app.put("/updatetotalticket")
+async def update_total_ticket(request: TotalTicket):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = "UPDATE ticketTable SET totalticket = %s, remainticket = %s WHERE email = %s"
+            values = (request.totalticket, request.remainticket, request.email)
+            cursor.execute(sql, values)
+
+            connection.commit()
+            return request
+    finally:
+        connection.close()
+
+@app.put("/updateusedticket")
+async def update_used_ticket(request: UsedTicket):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = "UPDATE ticketTable SET usedticket = %s, remainticket = %s WHERE email = %s"
+            values = (request.usedticket, request.remainticket, request.email)
+            cursor.execute(sql, values)
+
+            connection.commit()
+            return request
     finally:
         connection.close()
 

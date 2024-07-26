@@ -79,4 +79,12 @@ CREATE TABLE IF NOT EXISTS replyTable (
   PRIMARY KEY (replynum)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE IF NOT EXISTS ticketTable (
+  email varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  totalticket varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  usedticket varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  remainticket varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  PRIMARY KEY (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 EOSQL
