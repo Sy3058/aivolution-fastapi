@@ -773,7 +773,7 @@ async def error_process(worknum: str):
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
-            sql = "SELECT email, name, opt FROM workTable WHERE worknum = %s"
+            sql = "SELECT email, name, opt, videolength FROM workTable WHERE worknum = %s"
             cursor.execute(sql, (worknum))
             data = cursor.fetchall()
 
@@ -782,9 +782,25 @@ async def error_process(worknum: str):
             cursor.execute(sql, values)
             connection.commit()
 
+            print(data)
+
             email = data[0][0]
             name = data[0][1]
             opt = data[0][2]
+            videolength = data[0][3]
+            videolength_list = videolength.split(":")
+            vlsec = int(videolength_list[2]) + int(videolength_list[1])*60 + int(videolength_list[0])*3600
+
+            sql = "SELECT usedticket, remainticket FROM ticketTable WHERE email = %s"
+            cursor.execute(sql, (email))
+            tdata = cursor.fetchall()
+
+            usedticket = int(tdata[0][0]) - vlsec
+            remainticket = int(tdata[0][1]) + vlsec
+
+            sql = "UPDATE ticketTable SET usedticket = %s, remainticket = %s WHERE email = %s"
+            cursor.execute(sql, (usedticket, remainticket, email))
+            connection.commit()
 
             if opt == "in":
                 return EmailRequest(email=email, name=name)
