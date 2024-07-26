@@ -781,9 +781,7 @@ async def error_process(worknum: str):
             values = ("E", worknum)
             cursor.execute(sql, values)
             connection.commit()
-
-            print(data)
-
+            
             email = data[0][0]
             name = data[0][1]
             opt = data[0][2]
