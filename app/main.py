@@ -679,6 +679,19 @@ async def update_used_ticket(request: UsedTicket):
     finally:
         connection.close()
 
+@app.delete("/deleteticket")
+async def delete_ticket(email: str):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = "DELETE FROM ticketTable WHERE email = %s"
+            cursor.execute(sql, (email))
+
+            connection.commit()
+            return {"email": email}
+    finally:
+        connection.close()
+
 @app.post("/addworknum")
 async def add_work_num(data: dict):
     connection = get_db_connection()
