@@ -59,6 +59,21 @@ INSERT INTO anncTable (title, content) VALUES ('"AIditor" 오픈 공지', '<p> �
   <p> 번거로움 없이 영상을 편집할 수 있는 AIditor, 많이 이용해주세요.</p>
   <p> 감사합니다.</p>');
 
+INSERT INTO anncTable (title, content) VALUES ('"AIditor" 사용 설명', '<p> 안녕하세요, <span>AIvolution</span>입니다.</p>
+ <br />
+ <p> 기능 사용 설명이 필요하시다면 아래의 링크를 참조해주세요.</p>
+ <ul>
+   <li>
+     <a href="https://www.aivolution.link/RealtimeDescription" style="text-decoration:none; font-weight:bold; color:black;"> 실시간 모자이크 사용법 </a>
+   </li>
+   <li>
+     <a href="https://www.aivolution.link/VideoEditorDescription" style="text-decoration:none; font-weight:bold; color:black;"> 영상 편집기 사용법 </a>
+   </li>
+ </ul>
+ <br />
+ <p> 해당 링크는 왼쪽 목록의 <span style="color:black">실시간 모자이크</span>와 <span style="color:black"> 영상 편집기</span>에서도 확인하실 수 있습니다.
+ ;
+
 CREATE TABLE IF NOT EXISTS boardTable (
   boardnum int NOT NULL AUTO_INCREMENT,
   title varchar(255) NOT NULL,
@@ -86,5 +101,7 @@ CREATE TABLE IF NOT EXISTS ticketTable (
   remainticket varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   PRIMARY KEY (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO ticketTable (email) VALUES ('$ADMIN_ID');
 
 EOSQL

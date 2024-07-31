@@ -553,9 +553,12 @@ def select_all_user():
         with connection.cursor() as cursor:
             sql = "SELECT * FROM userTable"
             cursor.execute(sql)
-
             result = cursor.fetchall()
-            return result
+            
+            userlist = []
+            for i in range (0, len(result)):
+                userlist.append({"email": result[i][0], "name": result[i][1], "opt": result[i][3], "isadmin": result[i][4]})
+            return userlist
     finally:
         connection.close()
 
