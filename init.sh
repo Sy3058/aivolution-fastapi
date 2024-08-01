@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS anncTable (
   wrdate datetime DEFAULT CURRENT_TIMESTAMP,
   viewcnt int DEFAULT '0',
   PRIMARY KEY (boardnum)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO anncTable (title, content) VALUES ('"AIditor" 오픈 공지', '<p> 안녕하세요, <span>AIvolution</span>입니다. </p>
   <br />
@@ -60,18 +60,18 @@ INSERT INTO anncTable (title, content) VALUES ('"AIditor" 오픈 공지', '<p> �
   <p> 감사합니다.</p>');
 
 INSERT INTO anncTable (title, content) VALUES ('"AIditor" 사용 설명', '<p> 안녕하세요, <span>AIvolution</span>입니다.</p>
- <br />
- <p> 기능 사용 설명이 필요하시다면 아래의 링크를 참조해주세요.</p>
- <ul>
-   <li>
-     <a href="https://www.aivolution.link/RealtimeDescription" style="text-decoration:none; font-weight:bold; color:black;"> 실시간 모자이크 사용법 </a>
-   </li>
-   <li>
-     <a href="https://www.aivolution.link/VideoEditorDescription" style="text-decoration:none; font-weight:bold; color:black;"> 영상 편집기 사용법 </a>
-   </li>
- </ul>
- <br />
- <p> 해당 링크는 왼쪽 목록의 <span style="color:black">실시간 모자이크</span>와 <span style="color:black"> 영상 편집기</span>에서도 확인하실 수 있습니다.
+  <br />
+  <p> 기능 사용 설명이 필요하시다면 아래의 링크를 참조해주세요.</p>
+  <ul>
+  <li>
+  <a href="https://www.aivolution.link/RealtimeDescription" style="text-decoration:none; font-weight:bold; color:black;"> 실시간 모자이크 사용법 </a>
+  </li>
+  <li>
+  <a href="https://www.aivolution.link/VideoEditorDescription" style="text-decoration:none; font-weight:bold; color:black;"> 영상 편집기 사용법 </a>
+  </li>
+  </ul>
+  <br />
+  <p> 해당 링크는 왼쪽 목록의 <span style="color:black">실시간 모자이크</span>와 <span style="color:black"> 영상 편집기</span>에서도 확인하실 수 있습니다.')
  ;
 
 CREATE TABLE IF NOT EXISTS boardTable (
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS boardTable (
   wremail varchar(50) DEFAULT NULL,
   replynum int DEFAULT 0,
   PRIMARY KEY (boardnum)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS replyTable (
   replynum int NOT NULL AUTO_INCREMENT,
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS replyTable (
   content text,
   wrdate datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (replynum)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS ticketTable (
   email varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
