@@ -608,6 +608,20 @@ async def update_user(data: dict):
     finally:
         connection.close()
 
+@app.put("/updateadmin")
+async def update_admin(data: dict):
+    connection = get_db_connection()
+    try:
+        with connection.cursor() as cursor:
+            sql = "UPDATE userTable SET isadmin = %s WHERE email = %s"
+            values = (data["isadmin"], data["email"])
+            cursor.execute(sql, values)
+
+            connection.commit()
+            return {"email": data["email"], "isadmin": data["isadmin"]}
+    finally:
+        connection.commit()
+
 @app.delete("/deleteuser")
 async def delete_user(email: str):
     connection = get_db_connection()
