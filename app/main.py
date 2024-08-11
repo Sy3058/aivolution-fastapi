@@ -478,7 +478,7 @@ async def send_email2(data: BoardNum):
                                     완료되었습니다!😆
                                     </td>
                                     <td style="display: block; margin-bottom: 10px; font-size: 0.9em;">
-                                    <a href="https://www.aiditor.link/board/{boardnum}">게시글 바로가기</a>
+                                    <a href="https://www.aivolution.link/board/{boardnum}">게시글 바로가기</a>
                                     </td>
                                 </tbody>
                                 </table>
@@ -584,12 +584,29 @@ async def add_user(data: dict):
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
-            sql = "INSERT INTO userTable (email, name, picture) VALUES (%s, %s, %s)"
-            values = (data["email"], data["name"], data["picture"])
-            cursor.execute(sql, values)
+            # 먼저 중복된 이메일이 있는지 확인
+            check_sql = "SELECT * FROM userTable WHERE email = %s"
+            cursor.execute(check_sql, (data["email"],))
+            existing_user = cursor.fetchone()
 
-            connection.commit()
-            result = {"email": data["email"], "name": data["name"], "picture": data["picture"], "opt":"in"}
+            if existing_user:
+                # 튜플을 개별 변수로 분리
+                email, name, picture, opt, isadmin = existing_user
+                result = {
+                    "email": email,
+                    "name": name,
+                    "picture": picture,
+                    "opt": opt,
+                    "isadmin": isadmin
+                }
+            else:
+                # 존재하지 않으면 새로운 유저 추가
+                insert_sql = "INSERT INTO userTable (email, name, picture) VALUES (%s, %s, %s)"
+                values = (data["email"], data["name"], data["picture"])
+                cursor.execute(insert_sql, values)
+                connection.commit()
+                result = {"email": data["email"], "name": data["name"], "picture": data["picture"], "opt": "in"}
+
             return result
     finally:
         connection.close()
@@ -660,10 +677,25 @@ async def add_ticket(email: str):
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
-            sql = "INSERT INTO ticketTable (email) VALUES (%s)"
-            cursor.execute(sql, (email))
+            # 중복된 이메일이 있는지 확인
+            check_sql = "SELECT * FROM ticketTable WHERE email = %s"
+            cursor.execute(check_sql, (email))
+            existing_user = cursor.fetchone()
 
-            connection.commit()
+            if existing_user:
+                email, totalticket, usedticket, remainticket = existing_user
+                result = {
+                    "email": email,
+                    "totalticket": totalticket,
+                    "usedticket": usedticket,
+                    "remainticket": remainticket
+                }
+            else:
+                insert_sql = "INSERT INTO ticketTable (email) VALUES (%s)"
+                cursor.execute(insert_sql, (email))
+                connection.commit()
+                result = {"email": email}
+
             return {"email": email}
     finally:
         connection.close()
