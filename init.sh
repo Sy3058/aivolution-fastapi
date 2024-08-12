@@ -46,20 +46,20 @@ CREATE TABLE IF NOT EXISTS anncTable (
   PRIMARY KEY (boardnum)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO anncTable (title, content) VALUES ('"AIditor" 오픈 공지', '<p> 안녕하세요, <span>AIvolution</span>입니다. </p>
+INSERT INTO anncTable (title, content) VALUES ('"아이크" 오픈 공지', '<p> 안녕하세요, <span>AIvolution</span>입니다. </p>
   <br />
-  <p> 쉽고 빠른 영상 편집을 위한 편집 서비스 "AIditor" 베타서비스를 오픈하였습니다.</p>
+  <p> 쉽고 빠른 영상 모자이크를 위한 영상 가공 서비스 "아이크" 베타서비스를 오픈하였습니다.</p>
   <p> 현재 사용 가능한 기능은 다음과 같습니다.</p>
   <br />
   <p> 사용 가능한 기능 </p>
-  <li> 유해정보 블라인드 </li>
+  <li> 유해 정보 블라인드 </li>
   <li> 개인정보 보호 </li>
   <li> 얼굴 감지 </li>
   <br />
-  <p> 번거로움 없이 영상을 편집할 수 있는 AIditor, 많이 이용해주세요.</p>
+  <p> 번거로움 없이 영상을 가공할 수 있는 아이크, 많이 이용해주세요.</p>
   <p> 감사합니다.</p>');
 
-INSERT INTO anncTable (title, content) VALUES ('"AIditor" 사용 설명', '<p> 안녕하세요, <span>AIvolution</span>입니다.</p>
+INSERT INTO anncTable (title, content) VALUES ('"아이크" 사용 설명', '<p> 안녕하세요, <span>AIvolution</span>입니다.</p>
   <br />
   <p> 기능 사용 설명이 필요하시다면 아래의 링크를 참조해주세요.</p>
   <ul>
@@ -67,11 +67,11 @@ INSERT INTO anncTable (title, content) VALUES ('"AIditor" 사용 설명', '<p> �
   <a href="https://www.aivolution.link/RealtimeDescription" style="text-decoration:none; font-weight:bold; color:black;"> 실시간 모자이크 사용법 </a>
   </li>
   <li>
-  <a href="https://www.aivolution.link/VideoEditorDescription" style="text-decoration:none; font-weight:bold; color:black;"> 영상 편집기 사용법 </a>
+  <a href="https://www.aivolution.link/VideoEditorDescription" style="text-decoration:none; font-weight:bold; color:black;"> 영상 모자이크 사용법 </a>
   </li>
   </ul>
   <br />
-  <p> 해당 링크는 왼쪽 목록의 <span style="color:black">실시간 모자이크</span>와 <span style="color:black"> 영상 편집기</span>에서도 확인하실 수 있습니다.')
+  <p> 해당 링크는 왼쪽 목록의 <span style="color:black">실시간 모자이크</span>와 <span style="color:black"> 영상 모자이크</span>에서도 확인하실 수 있습니다.')
  ;
 
 CREATE TABLE IF NOT EXISTS boardTable (
